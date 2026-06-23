@@ -1,0 +1,12 @@
+const express=require('express');
+const router=express.Router();
+const BlogController=require('../controllers/Blog');
+const {protect}=require('../Middleware/Authmiddleware');
+const {isAdmin}=require("../Middleware/Adminmiddleware");
+router.post('/',protect,isAdmin, BlogController.createBlog);
+router.get('/', BlogController.getAllBlogs);
+router.get('/:categorySlug/:slug', BlogController.getBlogByslug);
+router.delete('/:categorySlug/:slug',protect,isAdmin, BlogController.deleteBlog);
+router.put('/:categorySlug/:slug',protect,isAdmin,BlogController.updateBlog);
+router.get('/:categorySlug',BlogController.getBlogsByCategorySlug);
+module.exports=router;

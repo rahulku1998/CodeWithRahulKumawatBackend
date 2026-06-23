@@ -1,0 +1,12 @@
+const express=require('express');
+const router=express.Router();
+const NotesController=require('../controllers/Notes');
+const {protect}=require('../Middleware/Authmiddleware');
+const {isAdmin}=require("../Middleware/Adminmiddleware");
+router.post('/',protect,isAdmin,NotesController.createNotes);
+router.get('/', NotesController.getAllNotes);
+router.get('/:categorySlug/:slug', NotesController.getNotesBySlug);
+router.put('/:categorySlug/:slug',protect,isAdmin, NotesController.updateNotes);
+router.delete('/:categorySlug/:slug',protect,isAdmin, NotesController.deleteNotes);
+router.get('/:categorySlug', NotesController.getNotesByCategorySlug);
+module.exports=router;

@@ -1,0 +1,12 @@
+const express=require('express');
+const router=express.Router();
+const CourseController=require('../controllers/Course');
+const {protect} =require("../Middleware/Authmiddleware");
+const {isAdmin}=require("../Middleware/Adminmiddleware"); 
+router.get('/', CourseController.getAllCourses);
+router.get('/:categorySlug/:slug', CourseController.getCourseBySlug);
+router.get('/:categorySlug', CourseController.getCoursesByCategorySlug);
+router.post('/',protect,isAdmin, CourseController.createCourse);
+router.put('/:categorySlug/:slug',protect,isAdmin, CourseController.updateCourse);
+router.delete('/:categorySlug/:slug',protect,isAdmin,CourseController.deleteCourse);
+module.exports=router;

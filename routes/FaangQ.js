@@ -1,0 +1,12 @@
+const express=require('express');
+const router=express.Router();
+const FaangQController=require('../controllers/FaangQ');
+const {protect} =require("../Middleware/Authmiddleware");
+const {isAdmin}=require("../Middleware/Adminmiddleware"); 
+router.post('/',protect,isAdmin,FaangQController.createFaangQ);
+router.get('/', FaangQController.getAllFaangQs);
+router.get('/:categorySlug/:slug', FaangQController.getFaangQByslug);
+router.put('/:categorySlug/:slug',protect,isAdmin, FaangQController.updateFaangQ);
+router.delete('/:categorySlug/:slug', protect,isAdmin, FaangQController.deleteFaangQ);
+router.get('/:categorySlug', FaangQController.getFaangQsByCategorySlug);
+module.exports=router;
