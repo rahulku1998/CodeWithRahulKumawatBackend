@@ -11,6 +11,7 @@ app.use(cors({
   origin: function (origin, callback) {
     const allowedOrigins = [
       process.env.CLIENT_URL,
+      "https://code-with-rahul-kumawat-fronted.vercel.app",
       "https://educationspaces.in",
       "https://www.educationspaces.in",
     ];
