@@ -12,7 +12,7 @@ app.use(cors({
     const allowedOrigins = [
       process.env.CLIENT_URL,
       "https://code-with-rahul-kumawat-fronted.vercel.app",
-      "https://www.codewithrahulkumawat.com/",
+      "https://www.codewithrahulkumawat.com",
       "https://codewithrahulkumawat.com",
     ];
     // ✅ No origin = direct browser/curl/crawler request — allow karo
