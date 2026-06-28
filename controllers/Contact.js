@@ -1,13 +1,8 @@
 const Contact = require("../models/Contact");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.PASSWORD,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 
 exports.createContact = async (req, res) => {
   try {
@@ -20,32 +15,34 @@ exports.createContact = async (req, res) => {
       message,
     });
 
-    await transporter.sendMail({
-      from: process.env.EMAIL,
-      to: process.env.EMAIL,
-      subject: `New Contact Form: ${subject}`,
-      html: `
-        <h2>New Contact Request</h2>
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Subject:</b> ${subject}</p>
-        <p><b>Message:</b></p>
-        <p>${message}</p>
-      `,
-    });
+   // Email to YOU
+    await Promise.all([
+      resend.emails.send({
+        from: "CodeWithRahul <onboarding@resend.dev>",
+        to: process.env.EMAIL,
+        subject: `New Contact Form: ${subject}`,
+        html: `
+          <h2>New Contact Request</h2>
+          <p><b>Name:</b> ${name}</p>
+          <p><b>Email:</b> ${email}</p>
+          <p><b>Subject:</b> ${subject}</p>
+          <p><b>Message:</b> ${message}</p>
+        `,
+      }),
 
-    await transporter.sendMail({
-      from: process.env.EMAIL,
-      to: email, // user ka email 
-      subject: "We received your message",
-      html: `
-        <h2>Thank You for Your Message!</h2>
-        <p>Hi ${name},</p>
-        <p>We have received your message and will get back to you shortly.</p>
-        <p>Regards,<br/>Rahul Kumawat</p>
-      `,
-    });
-    
+      resend.emails.send({
+        from: "CodeWithRahul <onboarding@resend.dev>",
+        to: email,
+        subject: "We received your message",
+        html: `
+          <h2>Thank You!</h2>
+          <p>Hi ${name},</p>
+          <p>We received your message and will reply soon.</p>
+          <p>- Rahul Kumawat</p>
+        `,
+      }),
+    ]);
+
 
     res.status(201).json({
       success: true,
