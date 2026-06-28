@@ -1,16 +1,10 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.PASSWORD,
-  },
-});
 
 exports.registerUser = async (req, res) => {
   try {
@@ -58,35 +52,37 @@ exports.registerUser = async (req, res) => {
       leetcode,
     });
 
-    
-      await transporter.sendMail({
-      from: process.env.EMAIL,
-      to: process.env.EMAIL,
-      subject: `New Student is Registered whose  name is : ${name}`,
-      html: `
-        <h2>New User Details are </h2>
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>College:</b> ${college}</p>
-        <p><b>Linkedin:</b> ${linkedin}</p>
-        <p><b>github:</b> ${github}</p>
-        <p><b>leetcode:</b> ${leetcode}</p>
-        <p><b>experience:</b> ${experience}</p>
-      `,
-    });
+      await Promise.all([
+  resend.emails.send({
+    from: "CodeWithRahulKumawat <noreply@codewithrahulkumawat.com>",
+    to: process.env.EMAIL,
+    subject: `New Student is Registered whose name is: ${name}`,
+    html: `
+      <h2>New User Details are</h2>
+      <p><b>Name:</b> ${name}</p>
+      <p><b>Email:</b> ${email}</p>
+      <p><b>College:</b> ${college}</p>
+      <p><b>Linkedin:</b> ${linkedin}</p>
+      <p><b>Github:</b> ${github}</p>
+      <p><b>Leetcode:</b> ${leetcode}</p>
+      <p><b>Experience:</b> ${experience}</p>
+    `,
+  }),
 
-    await transporter.sendMail({
-      from: process.env.EMAIL,
-      to: email, // user ka email 
-      subject: "Thank you for Registration ",
-      html: `
-        <h2>Thank You for Registration !</h2>
-        <p>Hi ${name},</p>
-        <p>Explore Courses and Notes available on our platfoem and get Touch with us for latest 
-        update.</p>
-        <p>Regards,<br/>Rahul Kumawat</p>
-      `,
-    });
+  resend.emails.send({
+    from: "CodeWithRahulKumawat <noreply@codewithrahulkumawat.com>",
+    to: email,
+    subject: "Thank you for Registration",
+    html: `
+      <h2>Thank You for Registration!</h2>
+      <p>Hi ${name},</p>
+      <p>Explore courses and notes on our platform and stay updated.</p>
+      <p>Regards,<br/>Rahul Kumawat</p>
+    `,
+  }),
+]);
+
+    
       
     return res.status(201).json({
       success: true,

@@ -18,7 +18,7 @@ exports.createContact = async (req, res) => {
    // Email to YOU
     await Promise.all([
       resend.emails.send({
-        from: "CodeWithRahul <onboarding@resend.dev>",
+        from: "CodeWithRahulKumawat <noreply@codewithrahulkumawat.com>",
         to: process.env.EMAIL,
         subject: `New Contact Form: ${subject}`,
         html: `
@@ -31,7 +31,7 @@ exports.createContact = async (req, res) => {
       }),
 
       resend.emails.send({
-        from: "CodeWithRahul <onboarding@resend.dev>",
+        from: "CodeWithRahulKumawat <noreply@codewithrahulkumawat.com>",
         to: email,
         subject: "We received your message",
         html: `

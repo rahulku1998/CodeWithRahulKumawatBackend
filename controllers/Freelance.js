@@ -11,7 +11,7 @@ exports.createFreelance = async (req, res) => {
     await freelance.save();
     await Promise.all([
   resend.emails.send({
-    from: "CodeWithRahul <onboarding@resend.dev>",
+    from: "CodeWithRahulKumawat <noreply@codewithrahulkumawat.com>",
     to: process.env.EMAIL,
     subject: "New Freelance Inquiry",
     html: `
@@ -25,7 +25,7 @@ exports.createFreelance = async (req, res) => {
   }),
 
   resend.emails.send({
-    from: "CodeWithRahul <onboarding@resend.dev>",
+    from: "CodeWithRahulKumawat <noreply@codewithrahulkumawat.com>",
     to: email,
     subject: "We received your request",
     html: `
