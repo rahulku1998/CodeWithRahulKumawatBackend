@@ -31,7 +31,7 @@ exports.createFreelance = async (req, res) => {
     html: `
       <h2>Thank You for Your Inquiry!</h2>
       <p>Hi ${name},</p>
-      <p>We have received your freelance project request.</p>
+      <p>We have received your request.</p>
       <p>I will review your requirements and get back to you shortly.</p>
       <p>Regards,<br/>Rahul Kumawat</p>
     `,
