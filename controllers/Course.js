@@ -4,7 +4,7 @@ const generateSlug = (title) => {
 };
 exports.getAllCourses=async(req,res)=>{
   try {
-    const courses=await Course.find().sort({createdAt:-1}); 
+    const courses=await Course.find().sort({createdAt:1}); 
     res.status(200).json(courses);
   } catch (error) {
     res.status(500).json({message:error.message});
@@ -23,7 +23,7 @@ exports.getCourseBySlug=async(req,res)=>{
 };
 exports.getCoursesByCategorySlug=async(req,res)=>{
   try {
-    const courses=await Course.find({categorySlug:req.params.categorySlug}).sort({createdAt:-1});
+    const courses=await Course.find({categorySlug:req.params.categorySlug}).sort({createdAt:1});
     res.status(200).json(courses);
   } catch (error) {
     res.status(500).json({message:error.message});

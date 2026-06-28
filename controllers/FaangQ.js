@@ -22,7 +22,7 @@ exports.createFaangQ = async (req, res) => {
 
 exports.getAllFaangQs = async (req, res) => {
   try {
-    const faangQs = await FaangQ.find().sort({ createdAt: -1 });
+    const faangQs = await FaangQ.find().sort({ createdAt: 1 });
     res.status(200).json(faangQs);
     
   } catch (error) {
@@ -71,7 +71,7 @@ exports.deleteFaangQ = async (req, res) => {
 
 exports.getFaangQsByCategorySlug = async (req, res) => {
   try {
-    const faangQs = await FaangQ.find({ categorySlug: req.params.categorySlug }).sort({ createdAt: -1 });
+    const faangQs = await FaangQ.find({ categorySlug: req.params.categorySlug }).sort({ createdAt: 1 });
     res.status(200).json(faangQs);
   } catch (error) {
     res.status(500).json({ message: error.message });

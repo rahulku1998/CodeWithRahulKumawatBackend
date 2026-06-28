@@ -21,7 +21,7 @@ exports.createNotes=async(req,res)=>{
 };
 exports.getAllNotes=async(req,res)=>{
   try {
-    const notes=await Notes.find().sort({createdAt:-1});
+    const notes=await Notes.find().sort({createdAt:1});
     res.status(200).json(notes);
   } catch (error) {
     res.status(500).json({message:error.message});
@@ -40,7 +40,7 @@ exports.getNotesBySlug=async(req,res)=>{
 };
 exports.getNotesByCategorySlug=async(req,res)=>{
   try {
-    const notes=await Notes.find({categorySlug:req.params.categorySlug}).sort({createdAt:-1});  
+    const notes=await Notes.find({categorySlug:req.params.categorySlug}).sort({createdAt:1});  
     res.status(200).json(notes);
   } catch (error) {
     res.status(500).json({message:error.message});
